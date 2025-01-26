@@ -89,7 +89,7 @@ func (ml *MultiLayerPerceptron) feedForwardPropagation() {
 }
 
 //backFordwardPropagation back forward propagation algorithm
-func (ml *MultiLayerPerceptron) backFordwardPropagation(deltaE []float64) {
+func (ml *MultiLayerPerceptron) backFordwardPropagation(deltaE []float64) Matrix {
 	//calculo de los deltas para el backpropagation
 	//se multiplica los deltas de error de la salida por la tasa de aprendizaje
 	outputG := MatrixScalar(([][]float64{deltaE}), ml.LearningRate)
@@ -158,10 +158,12 @@ func (ml *MultiLayerPerceptron) backFordwardPropagation(deltaE []float64) {
 		panic(err.Error())
 	}
 
+	return hDeltas
+
 }
 
 //Train funcion to train the mlp, given inputs and targets data
-func (ml *MultiLayerPerceptron) Train(inputs, targets [][]float64, epochs int) {
+func (ml *MultiLayerPerceptron) Train(inputs, targets [][]float64, epochs int, verbose bool) {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < epochs; i++ {
 
@@ -177,6 +179,11 @@ func (ml *MultiLayerPerceptron) Train(inputs, targets [][]float64, epochs int) {
 
 			}
 			ml.backFordwardPropagation(delta)
+
+			if verbose {
+				fmt.Printf("epoch %d: deltas: %v", i, ml.backForwardPropagation(delta))
+			}
+
 		}
 
 		// for i, input := range intputs {
