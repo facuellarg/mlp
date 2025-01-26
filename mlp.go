@@ -178,10 +178,11 @@ func (ml *MultiLayerPerceptron) Train(inputs, targets [][]float64, epochs int, v
 				delta[j] = targets[index][j] - ml.Output[j]
 
 			}
-			ml.backFordwardPropagation(delta)
-
+			
 			if verbose {
-				fmt.Printf("epoch %d: deltas: %v", i, ml.backForwardPropagation(delta))
+				fmt.Printf("epoch %d: deltas: %v", i, ml.backFordwardPropagation(delta))
+			}else {
+				ml.backFordwardPropagation(delta)
 			}
 
 		}
